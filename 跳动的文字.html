@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>js实现文字跳动</title>
+
+    <style>
+        #txtDom {
+            padding: 50px;
+            width: 1200px;
+            margin: 0 auto;
+            font-size: 30px;
+            font-family: "微软雅黑";
+            line-height: 1.3em;
+            text-indent: 2em;
+        }
+        
+        .inputBox {
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        #submit {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            border: 1px solid #000;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="txtDom">
+        我是练习时长2年半的菜鸟程序员，这个一个用js写的示例，原理是将每一个字都拆分并通过js生成span框，将字存进去后然后将其封装成独立的对象，并对每个对象经行function赋予，最后通过计时器实现每个字的跳动
+    </div>
+    <div class="inputBox"><input type="text" id="input" placeholder="输入数字改变速率"><span id="submit">提交</span></div>
+    <script>
+        let sp = 300;
+        // var timer = null;
+        var txtAnim = {
+            len: 0,
+            txtDom: "",
+            arrTxt: [],
+            speed: 300,
+            timer: null,
+            init: function(obj) {
+                // 获取整个div
+                this.obj = obj;
+                //获取div内的内容，并将空格排除掉
+                this.txtDom = obj.innerHTML.replace(/\s+/g, "");
+                this.len = this.txtDom.length;
+                obj.innerHTML = "";
+                this.addDom();
+            },
+            addDom: function() {
+                for (var i = 0; i < this.len; i++) {
+                    // 将每个字都存到span中
+                    var spanDom = document.createElement("span");
+                    spanDom.innerHTML = this.txtDom.substring(i, i + 1);
+                    // 将所有的span都添加到div中
+                    this.obj.appendChild(spanDom);
+                    this.arrTxt.push(spanDom);
+                };
+                for (var j = 0; j < this.len; j++) {
+                    //将所有的span的position都变成relative
+                    this.arrTxt[j].style.position = "relative";
+                };
+                this.strat();
+            },
+            strat: function() {
+
+
+                // for (var i = 0; i < this.len; i++) {
+                //     this.arrTxt[i].onmouseover = function() {
+                //         this.stop = 0;
+                //         this.speed = -1;
+                //         var $this = this;
+                //         this.timer = setInterval(function() {
+
+                //             $this.stop += $this.speed; //0  += -1
+                //             if ($this.stop <= -20) {
+                //                 $this.speed = 1;
+                //             }
+
+                //             $this.style.top = $this.stop + "px";
+
+                //             if ($this.stop >= 0) {
+                //                 clearInterval($this.timer)
+                //                 $this.style.top = 0 + "px";
+                //             };
+                //         }, 15);
+                //     };
+                // }
+                // 给每个span对象都赋予跳动的动作
+                for (var i = 0; i < this.len; i++) {
+                    this.arrTxt[i].time = function() {
+                        this.stop = 0;
+                        this.speed = -1;
+                        var $this = this;
+                        this.timer = setInterval(function() {
+
+                            $this.stop += $this.speed; //0  += -1
+                            if ($this.stop <= -20) {
+                                $this.speed = 1;
+                            }
+
+                            $this.style.top = $this.stop + "px";
+
+                            if ($this.stop >= 0) {
+                                clearInterval($this.timer)
+                                $this.style.top = 0 + "px";
+                            };
+                        }, 15);
+                    };
+                }
+                let index = 0;
+                let that = this;
+                clearInterval(that.timer)
+                that.timer = setInterval(function() {
+
+                    that.arrTxt[index].time();
+                    index++;
+                    if (index == that.len) {
+                        index = 0;
+                    }
+
+                }, that.speed)
+
+
+            }
+        }
+
+        var txtDom = document.getElementById("txtDom");
+        var input = document.getElementById('input');
+        var submit = document.getElementById('submit');
+        submit.onclick = function() {
+            txtAnim.speed = input.value;
+            // console.log(txtAnim.speed)
+            txtAnim.strat()
+        }
+        txtAnim.init(txtDom);
+    </script>
+</body>
+
+</html>
