@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>光圈特效</title>
+    <style>
+        #linkBox {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+            border: 1px solid #ccc;
+        }
+        
+        #clickme {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            background: red;
+            line-height: 100px;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+            z-index: 99;
+        }
+        
+        #linkBox span {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            transform: translate(-50%, -50%) scale(1);
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            animation: link 3s linear;
+        }
+        
+        #linkBox .sp {
+            background: orange;
+            animation: link 3s linear infinite;
+        }
+        
+        @keyframes link {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0.1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="linkBox">
+        <div id="clickme">点击我</div>
+        <span class="sp"></span>
+    </div>
+
+    <script src="./js/base.js" type="text/javascript"></script>
+    <script>
+        var box = document.getElementById('linkBox');
+        var clickme = document.getElementById('clickme');
+        clickme.onclick = () => {
+            let spanBox = document.createElement('span');
+            let rgb = randomColor();
+            spanBox.style.background = rgb;
+
+            box.appendChild(spanBox)
+            let time = setTimeout(() => {
+                box.removeChild(spanBox)
+            }, 3100);
+            clearTimeout(time)
+        }
+    </script>
+</body>
+
+</html>

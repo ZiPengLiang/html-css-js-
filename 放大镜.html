@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>放大镜</title>
+    <style type="text/css">
+        body {
+            /* position: relative; */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #imgBox {
+            position: relative;
+            margin: 100px auto;
+            width: 300px;
+            height: 300px;
+            border: 1px solid #cccccc;
+        }
+        
+        #Box {
+            height: 300px;
+            width: 300px;
+            position: relative;
+            /* margin: 0 auto; */
+            box-sizing: border-box;
+            border: 1px solid gray;
+        }
+        
+        #bigBox {
+            height: 300px;
+            width: 300px;
+            position: absolute;
+            top: 0;
+            left: 310px;
+            overflow: hidden;
+            display: none;
+            border: 1px solid gray;
+        }
+        
+        #Box img {
+            height: 300px;
+            width: 300px;
+        }
+        
+        #lay {
+            background: #fff;
+            border: 1px solid gray;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+            display: none;
+            filter: alpha(opacity=50);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="imgBox">
+        <div id="Box">
+            <img src="image/fangdajing.jpg" />
+            <span id="lay"></span>
+        </div>
+        <div id="bigBox">
+            <img src="image/fangdajing.jpg" />
+        </div>
+    </div>
+    <script type="text/javascript">
+        let imgBox = document.getElementById('imgBox')
+        let Box = document.getElementById('Box')
+        let lay = document.getElementById('lay')
+        let bigBox = document.getElementById('bigBox')
+            //获取bigBox中的图片
+        var bigbox = getChildNodes(bigBox)[0];
+        // var bigbox = bigBox.children[0];
+        Box.onmouseover = function() {
+            lay.style.display = 'block';
+            bigBox.style.display = 'block'
+        }
+        Box.onmouseout = function() {
+            lay.style.display = 'none';
+            bigBox.style.display = 'none'
+        }
+        Box.onmousemove = function(e) {
+            var e = e || event;
+            let scale = 4;
+            // console.log(e.clientX)
+            // 设置lay的宽度
+            lay.style.width = parseInt(Box.offsetWidth / scale) + 'px';
+            lay.style.height = parseInt(Box.offsetHeight / scale) + 'px';
+            //设置大盒子的宽高
+            bigbox.style.width = Box.offsetWidth * scale + "px";
+            bigbox.style.height = Box.offsetHeight * scale + "px";
+            // 获取Box相对于页面的位置
+            let BoxX = (Box.offsetLeft + imgBox.offsetLeft)
+            let BoxY = (Box.offsetTop + imgBox.offsetTop)
+                // 获取鼠标相对于Box的位置
+            let mouseX = e.clientX - BoxX;
+            let mouseY = e.clientY - BoxY;
+            // 设置lay的位置，让鼠标在lay中间
+            let x = mouseX - lay.offsetWidth / 2;
+            let y = mouseY - lay.offsetHeight / 2;
+            if (x < 0) {
+                x = 0
+            }
+            if (x > (Box.offsetWidth - lay.offsetWidth)) {
+                x = (Box.offsetWidth - lay.offsetWidth)
+            }
+            if (y < 0) {
+                y = 0
+            }
+            if (y > (Box.offsetHeight - lay.offsetHeight)) {
+                y = (Box.offsetHeight - lay.offsetHeight)
+            }
+            lay.style.top = y + 'px';
+            lay.style.left = x + 'px';
+            var left = x * scale;
+            var top = y * scale;
+            bigbox.style.marginLeft = (left * (-1)) + "px";
+            bigbox.style.marginTop = (top * (-1)) + "px";
+
+        }
+
+        function getChildNodes(element) {
+            var arr = [];
+            var eList = element.childNodes;
+            for (var i = 0; i < eList.length; i++) {
+                if (eList[i].nodeType == 1) { //过滤空白节点
+                    arr.push(eList[i]);
+                }
+            }
+            return arr;
+        }
+    </script>
+</body>
+
+</html>
+
+</html>

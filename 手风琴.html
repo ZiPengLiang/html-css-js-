@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>手风琴</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        ul,
+        li {
+            list-style: none;
+        }
+        
+        .Box {
+            width: 1200px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        
+        .Box ul {
+            height: 400px;
+            width: 560px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .Box ul li {
+            height: 400px;
+            position: absolute
+        }
+        
+        .Box ul li h4 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 40px;
+            font-size: 20px;
+            background: #000;
+            color: #ffffff;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            float: left;
+            opacity: 0.8;
+            box-sizing: border-box;
+            border-right: 2px solid #ffffff;
+        }
+        
+        .Box ul li img {
+            width: 400px;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="Box">
+        <ul id="ulBox">
+            <li>
+                <h4>第一张</h4><img src="./image/1.jpg" alt=""></li>
+            <li>
+                <h4>第二张</h4><img src="./image/2.jpg" alt=""></li>
+            <li>
+                <h4>第三张</h4><img src="./image/3.jpg" alt=""></li>
+            <li>
+                <h4>第四张</h4><img src="./image/4.jpg" alt=""></li>
+            <li>
+                <h4>第五张</h4><img src="./image/5.jpg" alt=""></li>
+        </ul>
+    </div>
+    <script>
+        let ulBox = document.getElementById('ulBox');
+        let li = ulBox.getElementsByTagName('li');
+        reload();
+        for (let v = 0; v < li.length; v++) {
+            li[v].onmouseover = function() {
+                // 第一种方法，不加动画
+                reload();
+                for (var j = v + 1; j < li.length; j++) {
+                    li[j].style.left = (j - 1) * 40 + 400 + 'px'
+                }
+            }
+        }
+
+        function reload() {
+            for (var i = 0; i < li.length; i++) {
+                li[i].style.left = i * 40 + 'px';
+            }
+        }
+    </script>
+</body>
+
+</html>

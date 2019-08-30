@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>放大镜2.0</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        ul,
+        li {
+            list-style: none;
+        }
+        
+        #imgBox {
+            width: 300px;
+            height: 400px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            position: relative;
+        }
+        
+        #Box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 300px;
+            box-sizing: border-box;
+        }
+        
+        #Box img {
+            width: 300px;
+            height: 300px;
+        }
+        
+        #bigBox {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            left: 310px;
+            top: 0;
+            overflow: hidden;
+            display: none;
+            border: 1px solid gray;
+        }
+        
+        #bottomBox {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 80px;
+            width: 300px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            overflow: hidden;
+        }
+        
+        .fuhao {
+            position: absolute;
+            top: 0;
+            height: 80px;
+            width: 20px;
+            background: rgb(158, 158, 158);
+            text-align: center;
+            line-height: 80px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .lt {
+            left: 0
+        }
+        
+        .gt {
+            right: 0
+        }
+        
+        #imgUrl {
+            height: 80px;
+            width: 800px;
+            position: absolute;
+            top: 0;
+            left: 20px;
+            /* overflow: hidden; */
+        }
+        
+        #imgUrl ul {
+            position: absolute;
+            left: 0px;
+            margin: 0;
+            height: 80px;
+        }
+        
+        #imgUrl ul li {
+            width: 80px;
+            height: 80px;
+            padding: 10px 10px;
+            float: left;
+            cursor: pointer;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+        }
+        
+        #imgUrl ul li img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #lay {
+            background: #fff;
+            border: 1px solid gray;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+            display: none;
+            filter: alpha(opacity=50);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="imgBox">
+        <div id="Box">
+            <img src="./image/fangdajing.jpg" alt="">
+            <span id="lay"></span>
+        </div>
+        <div id="bigBox">
+            <img src="./image/fangdajing.jpg" alt="">
+        </div>
+        <div id="bottomBox">
+
+            <div id="lt" class="fuhao lt">&lt;</div>
+            <div id="gt" class="fuhao gt">&gt;</div>
+
+            <div id="imgUrl">
+                <ul id="ul">
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        let Box = document.getElementById('Box');
+        let box = Box.children[0]
+        let bigBox = document.getElementById('bigBox');
+        let bigbox = bigBox.children[0]
+        let gt = document.getElementById('gt');
+        let lt = document.getElementById('lt');
+        let ul = document.getElementById('ul');
+        let imgarr = ['./image/fangdajing.jpg', './image/1.jpg', './image/2.jpg', './image/3.jpg', './image/4.jpg', './image/5.jpg'];
+        let index = 0;
+        let liArr = [];
+        // console.log()
+        box.setAttribute('src', imgarr[index])
+        bigbox.setAttribute('src', imgarr[index])
+        for (var i = 0; i < imgarr.length; i++) {
+            let iBox = document.createElement('li');
+            let img = document.createElement('img');
+            img.setAttribute('src', imgarr[i]);
+            iBox.appendChild(img);
+            iBox.setAttribute('data', i)
+            if (i == 0) {
+                iBox.style.borderColor = 'red'
+            }
+            ul.appendChild(iBox);
+            liArr.push(iBox)
+        }
+        //实现图片切换
+        ul.onclick = function(e) {
+            var e = e || event;
+            index = e.target.parentNode.getAttribute('data');
+            // console.log(index)
+            clearli();
+            e.target.parentNode.style.borderColor = 'red';
+            box.setAttribute('src', imgarr[index])
+            bigbox.setAttribute('src', imgarr[index])
+        }
+
+        gt.onclick = function() {
+            // let toLeft = ul.offsetLeft - 80;
+            ul.removeChild(liArr[0]);
+            ul.appendChild(liArr[0]);
+            liArr.push(liArr[0]);
+            liArr.splice(0, 1);
+            // clearli();
+            // index = liArr[0].getAttribute('data')
+
+            // liArr[0].style.borderColor = 'red';
+            // box.setAttribute('src', imgarr[index])
+            // bigbox.setAttribute('src', imgarr[index])
+        }
+        lt.onclick = function() {
+            // ul.style.left = (ul.offsetLeft + 80) + 'px'
+
+            ul.removeChild(liArr[liArr.length - 1]);
+            ul.insertBefore(liArr[liArr.length - 1], liArr[0])
+
+            // ul.insertBefore(liArr[0], liArr[liArr.length - 1])
+            liArr.splice(0, 0, liArr[liArr.length - 1])
+            liArr.splice(liArr.length - 1, 1)
+        }
+
+        /*以下实现放大镜*/
+        Box.onmouseover = function() {
+            lay.style.display = 'block';
+            bigBox.style.display = 'block'
+        }
+        Box.onmouseout = function() {
+            lay.style.display = 'none';
+            bigBox.style.display = 'none'
+        }
+        Box.onmousemove = function(e) {
+            var e = e || event;
+            let scale = 4;
+            // console.log(e.clientX)
+            // 设置lay的宽度
+            lay.style.width = parseInt(Box.offsetWidth / scale) + 'px';
+            lay.style.height = parseInt(Box.offsetHeight / scale) + 'px';
+            //设置大盒子的宽高
+            bigbox.style.width = Box.offsetWidth * scale + "px ";
+            bigbox.style.height = Box.offsetHeight * scale + "px ";
+            // 获取Box相对于页面的位置
+            let BoxX = (Box.offsetLeft + imgBox.offsetLeft)
+            let BoxY = (Box.offsetTop + imgBox.offsetTop)
+                // 获取鼠标相对于Box的位置
+            let mouseX = e.clientX - BoxX;
+            let mouseY = e.clientY - BoxY;
+            // 设置lay的位置，让鼠标在lay中间
+            let x = mouseX - lay.offsetWidth / 2;
+            let y = mouseY - lay.offsetHeight / 2;
+            if (x < 0) {
+                x = 0
+            }
+            if (x > (Box.offsetWidth - lay.offsetWidth)) {
+                x = (Box.offsetWidth - lay.offsetWidth)
+            }
+            if (y < 0) {
+                y = 0
+            }
+            if (y > (Box.offsetHeight - lay.offsetHeight)) {
+                y = (Box.offsetHeight - lay.offsetHeight)
+            }
+            lay.style.top = y + 'px';
+            lay.style.left = x + 'px';
+            var left = x * scale;
+            var top = y * scale;
+            bigbox.style.marginLeft = (left * (-1)) + "px ";
+            bigbox.style.marginTop = (top * (-1)) + "px ";
+
+        }
+
+        function clearli() {
+            for (var i = 0; i < liArr.length; i++) {
+                liArr[i].style.borderColor = 'transparent'
+            }
+        }
+    </script>
+</body>
+
+</html>
