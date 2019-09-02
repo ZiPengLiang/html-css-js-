@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽（纯js）</title>
+    <style>
+        body {
+            position: relative;
+        }
+        
+        #Box {
+            width: 200px;
+            height: 200px;
+            background: red;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            line-height: 200px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="Box">
+        <!-- 任意拖拽 -->
+    </div>
+    <script>
+        var box = document.getElementById('Box');
+        box.onmousedown = function(e) {
+            var e = e || event;
+            // 获取鼠标相对于div的位置
+            var disX = e.clientX - box.offsetLeft;
+            var disY = e.clientY - box.offsetTop;
+            box.onmousemove = function(e) {
+                console.log(e.clientX, e.clientY)
+                var e = e || event;
+                box.style.left = e.clientX - disX + 'px';
+                box.style.top = e.clientY - disY + 'px';
+            }
+            box.onmouseup = function() {
+                box.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+
+</html>

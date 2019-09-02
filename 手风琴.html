@@ -32,7 +32,7 @@
         
         .Box ul li {
             height: 400px;
-            position: absolute
+            position: absolute;
         }
         
         .Box ul li h4 {
@@ -51,6 +51,7 @@
             opacity: 0.8;
             box-sizing: border-box;
             border-right: 2px solid #ffffff;
+            cursor: pointer;
         }
         
         .Box ul li img {
@@ -75,24 +76,124 @@
             <li>
                 <h4>第五张</h4><img src="./image/5.jpg" alt=""></li>
         </ul>
+        <div>
+            这个是纯js写的，有bug，应该是定时器冲突了，但我还没解决
+        </div>
     </div>
+
     <script>
         let ulBox = document.getElementById('ulBox');
         let li = ulBox.getElementsByTagName('li');
+        let liArr = [];
         reload();
-        for (let v = 0; v < li.length; v++) {
-            li[v].onmouseover = function() {
-                // 第一种方法，不加动画
-                reload();
-                for (var j = v + 1; j < li.length; j++) {
-                    li[j].style.left = (j - 1) * 40 + 400 + 'px'
+        // for (let v = 0; v < li.length; v++) {
+        //     li[v].onmouseover = function() {
+        //         let time = null;
+        //         let liLeft = li[v].offsetLeft;
+        //         if (liLeft == liArr[v].toLeft) {
+        //             // console.log(666)
+        //             for (let j = v + 1; j < li.length; j++) {
+        //                 //当前的位置
+        //                 let total = li[j].offsetLeft;
+        //                 //目标的位置
+        //                 let toleft = (j - 1) * 40 + 400;
+        //                 let w = toleft - total;
+        //                 let speed = w / 10;
+        //                 // clearInterval(time)
+
+        //                 time = setInterval(function() {
+        //                     let newL = li[j].offsetLeft + speed;
+        //                     if (newL >= toleft) {
+        //                         newL = toleft;
+        //                         clearInterval(time)
+        //                     }
+        //                     li[j].style.left = newL + 'px'
+        //                 }, 80)
+        //             }
+        //         } else {
+        //             let w = liArr[v].toLeft - liLeft;
+        //             let speed = w / 10;
+        //             // clearInterval(time)
+        //             time = setInterval(function() {
+        //                 let newL = li[v].offsetLeft + speed;
+        //                 if (newL <= liArr[v].toLeft) {
+        //                     newL = liArr[v].toLeft;
+        //                     clearInterval(time)
+        //                 }
+        //                 li[v].style.left = newL + 'px'
+        //             }, 60)
+
+        //         }
+
+        //     }
+        // }
+        ulBox.onmouseover = function(e) {
+            var e = e || event;
+
+            if (e.target.nodeName.toLowerCase() == 'h4') {
+                cleartime()
+                let index = e.target.parentNode.getAttribute('data');
+                // clearInterval(liArr[index].time)
+                for (let i = 0; i < liArr.length; i++) {
+                    if (i > index) {
+                        console.log(index, i, 777)
+                            //当前的位置
+                        let total = liArr[i].toLeft;
+                        //目标的位置
+                        let toleft = (i - 1) * 40 + 400;
+                        let w = toleft - total;
+                        let speed = w / 10;
+                        liArr[i].time = setInterval(function() {
+                            let newL = li[i].offsetLeft + speed;
+                            if (newL >= toleft) {
+                                newL = toleft;
+                                clearInterval(liArr[i].time)
+                            }
+                            li[i].style.left = newL + 'px'
+                        }, 30)
+                    } else {
+
+                        let w = liArr[i].toLeft - li[i].offsetLeft;
+                        let speed = w / 10;
+                        liArr[i].time = setInterval(function() {
+                            let newL = li[i].offsetLeft;
+                            if (newL <= liArr[i].toLeft) {
+                                newL = liArr[i].toLeft;
+                                clearInterval(liArr[i].time)
+                            } else {
+                                newL = li[i].offsetLeft + speed;
+                            }
+                            li[i].style.left = newL + 'px';
+
+                        }, 30)
+                        console.log(index, i, 666, w, liArr[i].time)
+
+
+
+                    }
                 }
             }
         }
 
+        function cleartime() {
+            for (let i = 0; i < liArr.length; i++) {
+                // console.log(liArr[i].time)
+                liArr[i].time = null;
+            }
+        }
+
         function reload() {
-            for (var i = 0; i < li.length; i++) {
-                li[i].style.left = i * 40 + 'px';
+            for (let i = 0; i < li.length; i++) {
+                let toLeft = i * 40;
+                let obj = {
+                    index: i,
+                    li: li[i],
+                    toLeft: toLeft,
+                    time: null
+                }
+                liArr.push(obj);
+                li[i].setAttribute('data', i)
+                li[i].style.left = toLeft + 'px';
             }
         }
     </script>
