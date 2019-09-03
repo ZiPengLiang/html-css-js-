@@ -7,7 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>拖拽（纯js）</title>
     <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        html,
         body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
             position: relative;
         }
         
@@ -20,29 +29,56 @@
             text-align: center;
             line-height: 200px;
             position: absolute;
+            user-select: none;
         }
     </style>
 </head>
 
 <body>
     <div id="Box">
-        <!-- 任意拖拽 -->
+        任意拖拽
     </div>
     <script>
         var box = document.getElementById('Box');
+        //获取页面可视区宽高
+        let htmlWidth = document.body.offsetWidth;
+        let htmlHeight = document.body.offsetHeight;
+        //获取盒子的大小
+        let boxW = box.clientWidth || box.offsetWidth;
+        let boxH = box.clientHeight || box.offsetHeight;
+
         box.onmousedown = function(e) {
             var e = e || event;
             // 获取鼠标相对于div的位置
             var disX = e.clientX - box.offsetLeft;
             var disY = e.clientY - box.offsetTop;
-            box.onmousemove = function(e) {
-                console.log(e.clientX, e.clientY)
+            //关键点，将onmousemove事件给予document，防止鼠标快速移动式，盒子脱离
+            document.onmousemove = function(e) {
                 var e = e || event;
-                box.style.left = e.clientX - disX + 'px';
-                box.style.top = e.clientY - disY + 'px';
+                //盒子位移后的位置
+                let bX = e.clientX - disX;
+                let bY = e.clientY - disY;
+
+                // 边界判定
+                if (bX < 0) {
+                    bX = 0
+                }
+                if (bX + boxW > htmlWidth) {
+                    bX = htmlWidth - boxW
+                }
+                if (bY < 0) {
+                    bY = 0
+                }
+                if (bY + boxH > htmlHeight) {
+                    bY = htmlHeight - boxH
+                }
+
+                box.style.left = bX + 'px';
+                box.style.top = bY + 'px';
             }
-            box.onmouseup = function() {
-                box.onmousemove = null;
+            document.onmouseup = function() {
+                document.onmousemove = null;
+                document.onmouseup = null;
             }
         }
     </script>

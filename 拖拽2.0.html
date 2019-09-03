@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽（封装成对象）</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .Box {
+            width: 200px;
+            height: 200px;
+            background: red;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            line-height: 200px;
+            position: absolute;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Box" id="angBox">
+        任意拖拽
+    </div>
+    <div class="Box" id="YBox" style="background: chartreuse">
+        上下移动
+    </div>
+    <div class="Box" id="XBox" style="background: cyan">
+        左右移动
+    </div>
+    <div class="Box" id="angBox2" style="background: darkgray">
+        任意拖拽
+    </div>
+    <script>
+        function getId(dom) {
+            return document.getElementById(dom)
+        }
+        //构造一个函数 ---能用new生成实例
+        function Drag() {
+            this.drag = true;
+            this.arrow = null;
+        }
+
+        //将Drag的方法放在其原型上--减少空间
+        Drag.prototype.init = function(dom) {
+            let objthis = this;
+            let box = getId(dom);
+            //获取页面可视区宽高
+            let htmlWidth = document.body.offsetWidth;
+            let htmlHeight = document.body.offsetHeight;
+            //获取盒子的大小
+            let boxW = box.clientWidth || box.offsetWidth;
+            let boxH = box.clientHeight || box.offsetHeight;
+
+            box.onmousedown = function(e) {
+                let domthis = this;
+                var e = e || event;
+                // 获取鼠标相对于div的位置
+                var disX = e.clientX - domthis.offsetLeft;
+                var disY = e.clientY - domthis.offsetTop;
+                //关键点，将onmousemove事件给予document，防止鼠标快速移动式，盒子脱离
+                document.onmousemove = function(e) {
+                    var e = e || event;
+                    //盒子位移后的位置
+                    let bX = e.clientX - disX;
+                    let bY = e.clientY - disY;
+
+                    // 边界判定
+                    if (bX < 0) {
+                        bX = 0
+                    }
+                    if (bX + boxW > htmlWidth) {
+                        bX = htmlWidth - boxW
+                    }
+                    if (bY < 0) {
+                        bY = 0
+                    }
+                    if (bY + boxH > htmlHeight) {
+                        bY = htmlHeight - boxH
+                    }
+                    //判别该盒子的移动方式
+                    if (objthis.arrow == 'left') {
+                        domthis.style.left = bX + 'px';
+
+                    } else if (objthis.arrow == 'top') {
+                        domthis.style.top = bY + 'px';
+                    } else {
+                        domthis.style.left = bX + 'px';
+                        domthis.style.top = bY + 'px';
+                    }
+
+                }
+                document.onmouseup = function() {
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+            }
+
+        }
+        window.onload = function() {
+            let drag1 = new Drag();
+            drag1.init('angBox2');
+            let drag2 = new Drag();
+            drag2.arrow = 'top'
+            drag2.init('YBox');
+            let drag3 = new Drag();
+            drag3.arrow = 'left'
+            drag3.init('XBox');
+            let drag4 = new Drag();
+            drag4.init('angBox')
+        }
+    </script>
+</body>
+
+</html>

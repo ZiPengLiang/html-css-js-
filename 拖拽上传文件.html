@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽上传（jquery）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .box {
+            width: 602px;
+            margin: 100px auto;
+            min-height: 400px;
+            border: 1px solid #ccc;
+            /* box-sizing: border-box; */
+        }
+        
+        .dragBox {
+            width: 600px;
+            height: 200px;
+            background: darkgray;
+            color: #fff;
+            font-size: 20px;
+            line-height: 200px;
+            text-align: center;
+        }
+        
+        .uploadBox {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .uploadBox span {
+            display: block;
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            border-radius: 10px;
+            line-height: 30px;
+            color: #fff;
+            background: orange;
+            cursor: pointer;
+        }
+        
+        .fileBox {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="dragBox" id="dragBox">
+            拖拽上传区
+        </div>
+        <div class="uploadBox">
+            <span id="upload">文件上传</span>
+            <input type="file" id="fileInput" style="display: none">
+            <span>提交</span>
+        </div>
+        <div class="fileBox" id="fileBox">
+
+        </div>
+    </div>
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script>
+        let uploadArr = new Array();
+
+        $(document).on({
+            dragleave: function(e) { //拖离 
+                e.preventDefault();
+            },
+            drop: function(e) { //拖后放 
+                e.preventDefault();
+            },
+            dragenter: function(e) { //拖进 
+                e.preventDefault();
+            },
+            dragover: function(e) { //拖来拖去 
+                e.preventDefault();
+            }
+        });
+
+        let box = document.getElementById('dragBox');
+        box.addEventListener('drop', function(e) {
+            e.preventDefault();
+            var fileList = e.dataTransfer.files; //获取文件对象 
+            //检测是否是拖拽文件到页面的操作 
+            if (fileList.length == 0) {
+                return false;
+            }
+            addFile(fileList)
+        }, false)
+
+        function addFile(files) {
+            var errstr = ''
+            for (var i = 0; i < files.length; i++) {
+                let filename = files[i].name;
+                let isFind = false;
+                for (var j = 0; j < uploadArr.length; j++) {
+                    if (uploadArr[j].name == filename) {
+                        isFind = true;
+                        break;
+                    }
+                }
+                let fileData = filename.split('.');
+                var myarray = new Array('JPG', 'jpg', 'jpeg', 'JPEG', 'gif', 'GIF', 'png', 'PNG');
+                if ($.inArray(fileData[1], myarray) == -1) {
+                    errstr += filename + "/";
+                    continue;
+                }
+                if (isFind == false) {
+                    uploadArr.push(files[i]);
+                }
+            }
+            if (errstr != "") {
+                alert("文件格式错误:" + errstr);
+            }
+
+            var fileliststring = "";
+            for (var j = 0; j < uploadArr.length; j++) {
+                // fileliststring += uploadArr[j].name + " 大小:" + (uploadArr[j].size / 1000) + "k" + "</br>";
+                fileliststring += `<img style='width:100px;height:100px;margin:10px 10px;' src='./image/${uploadArr[j].name}' />`
+            }
+            $('#fileBox').html(fileliststring);
+            // console.log(uploadArr)
+        }
+
+
+        $('#upload').click(function() {
+            $('#fileInput').click().change(function(el) {
+
+                let files = el.target.files;
+                if (files.length == 0) {
+                    return;
+                }
+                addFile(files)
+            })
+        })
+    </script>
+</body>
+
+</html>
