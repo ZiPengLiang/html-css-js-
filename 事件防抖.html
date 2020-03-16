@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 100%;
+            height: 400px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script>
+        let box = document.getElementById('box');
+        addEventListener('mousemove', debounce(mousechange, 1000, true));
+        box.onclick = function() {
+            console.log(888)
+            debounce(mousechange, 1000, true).cancel()
+        }
+        let count = 0;
+
+        function mousechange() {
+            console.log(666)
+            box.innerHTML = count++
+        }
+        /**
+         * 事件防抖
+         * @params fn -- 处理方法
+         * @params deplay -- 时间间隔
+         * @params immediate -- 是否立即执行控件
+         * 
+         */
+        function debounce(fn, depaly, immediate) {
+            let time = null,
+                result;
+
+            let debounced = function() {
+                    let context = this;
+                    let ags = arguments;
+                    if (time) clearTimeout(time);
+                    if (immediate) {
+                        let callval = !time;
+                        time = setTimeout(function() {
+                            time = null;
+                        }, depaly)
+                        if (callval) result = fn.apply(context, ags)
+                    } else {
+                        time = setTimeout(function() {
+                            result = fn.apply(context, ags)
+                        }, depaly)
+                    }
+                    return result
+                }
+                // 实现点击取消
+            debounced.cancel = function() {
+                console.log(777)
+                clearTimeout(time);
+                time = null
+            }
+            console.log(debounced)
+            return debounced
+        }
+    </script>
+</body>
+
+</html>

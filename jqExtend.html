@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.staticfile.org/jquery/2.0.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let box = extend(true, [4, 5, 6, 7, 8, 9], [1, 2, 3]);
+        // console.log(box)
+        var obj1 = {
+            value: {
+                3: 1
+            }
+        }
+
+        var obj2 = {
+            value: [5, 6, 7],
+
+        }
+
+        // var b = extend(true, obj1, obj2) // ???
+        var c = extend(true, obj2, obj1) // ???
+
+        console.log(c)
+
+        function extend() {
+            let copyIsArray;
+            let length = arguments.length;
+            //判断第一个是否为布尔值--短路运算
+            let target = arguments[0] || {}
+            let deep = false;
+            let i = 1;
+            //如果第一个为是boolean
+            if (typeof target == 'boolean') {
+                deep = target;
+                //将第二个传入值赋值给目标对象
+                target = arguments[i] || {};
+                i++;
+            }
+            //如果target不是函数和对象，则将target初始化为对象
+            if (typeof target !== 'object' && typeof target !== 'function') {
+                target = {}
+            }
+
+            //开始遍历循环对象
+            for (; i < length; i++) {
+                let item = arguments[i];
+                if (item !== null) {
+                    for (let key in item) {
+                        let src = target[key];
+                        let copy = item[key];
+                        //跳开无限引用
+                        if (copy === target) {
+                            continue
+                        }
+                        //$.isPlainObject(copy) -- 判断是否为纯对象
+                        copyIsArray = Array.isArray(copy)
+                        if (deep && copy && ($.isPlainObject(copy) || copyIsArray)) {
+                            let clone = ''
+                            if (copyIsArray) {
+                                copyIsArray = false;
+                                clone = src && Array.isArray(src) ? src : []
+                            } else {
+                                clone = src && $.isPlainObject(src) ? src : {}
+                            }
+                            target[key] = extend(deep, clone, copy)
+                        } else if (copy !== 'underfined') {
+                            target[key] = copy
+                            console.log(copy)
+                        }
+                    }
+                }
+            }
+            return target
+        }
+    </script>
+</body>
+
+</html>

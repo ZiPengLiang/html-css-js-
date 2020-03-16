@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>验证码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .mainBox {
+            width: 500px;
+            height: 400px;
+            border: 1px solid #cccccc;
+            margin: 200px auto;
+            box-sizing: border-box;
+            padding: 20px;
+            display: flex;
+        }
+        
+        .inputBox {
+            width: 200px;
+            height: 40px;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+        
+        .emitBox {
+            width: 100px;
+            height: 40px;
+            font-size: 18px;
+        }
+        
+        .cBox {
+            width: 100px;
+            height: 40px;
+            margin: 0 20px;
+            box-sizing: border-box;
+            border: 1px solid #cccccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mainBox">
+        <input type="text" class="inputBox">
+        <canvas id="canvas" class="cBox" onclick="clickBtn()"></canvas>
+        <button class="emitBox">验证</button>
+    </div>
+    <script>
+        let show_num = []
+        draw(show_num)
+
+        function clickBtn() {
+            draw(show_num)
+        }
+
+        function draw(show_num) {
+            let canvas = document.getElementById('canvas');
+            let cWidth = canvas.clientWidth;
+            let cHeight = canvas.clientHeight;
+            let context = canvas.getContext('2d');
+            canvas.width = cWidth;
+            canvas.height = cHeight
+
+
+            let sCode = "A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0,q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m";
+            let aCode = sCode.split(",");
+            let aLength = aCode.length; //获取到数组的长度
+
+            for (let i = 0; i <= 3; i++) {
+                let index = Math.floor(Math.random() * aLength);
+                let deg = Math.random() * 30 * Math.PI / 180;
+                let text = aCode[index];
+                show_num[i] = text;
+                var x = 10 + i * 20
+                var y = 20 + Math.random() * 8;
+                context.font = 'bold 23px 微软雅黑';
+
+                context.translate(x, y)
+                context.rotate(deg);
+
+                context.fillStyle = randomColor()
+                context.fillText(text, 0, 0);
+
+                //将位置回整
+                context.rotate(-deg);
+                context.translate(-x, -y);
+            }
+
+            for (var i = 0; i <= 5; i++) { //验证码上显示线条
+                context.strokeStyle = randomColor();
+                context.beginPath();
+                context.moveTo(Math.random() * cWidth, Math.random() * cHeight);
+                context.lineTo(Math.random() * cWidth, Math.random() * cHeight);
+                context.stroke();
+            }
+            for (var i = 0; i <= 30; i++) { //验证码上显示小点
+                context.strokeStyle = randomColor();
+                context.beginPath();
+                var x = Math.random() * cWidth;
+                var y = Math.random() * cHeight;
+                context.moveTo(x, y);
+                context.lineTo(x + 1, y + 1);
+                context.stroke();
+            }
+
+        }
+
+        function randomColor() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return "rgb(" + r + "," + g + "," + b + ")";
+
+        }
+    </script>
+</body>
+
+</html>

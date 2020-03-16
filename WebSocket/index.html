@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简易聊天室</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul,
+        li {
+            list-style: none;
+        }
+        
+        li {
+            margin-top: 10px;
+        }
+        
+        .mainBox {
+            min-height: 500px;
+            width: 800px;
+            border: 1px solid #000;
+            margin: 100px auto;
+        }
+        
+        #message {
+            height: 400px;
+            width: 98%;
+            margin: 1%;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow: auto;
+            border: 1px solid #666;
+        }
+        
+        .wrap {
+            width: 100%;
+            margin-top: 4%;
+        }
+        
+        .input {
+            margin-left: 5%;
+            width: 80%;
+            height: 40px;
+            box-sizing: border-box;
+        }
+        
+        .btn-send {
+            width: 8%;
+            height: 40px;
+        }
+        
+        .messageBox {
+            display: none;
+        }
+        
+        .name {
+            width: 100%;
+            margin: 20px;
+            display: block;
+        }
+        
+        .nameinput {
+            width: 100px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+        
+        .b {
+            margin-left: 10px;
+        }
+        
+        .username {
+            display: inline-block;
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #eeeeee;
+        }
+        
+        .msContent {
+            margin-left: 10px;
+            display: inline-block;
+            padding: 12px;
+            text-align: center;
+            /* line-height: 40px; */
+            border: 1px solid rgba(17, 1, 1, 1);
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .btn {
+            height: 30px;
+            width: 60px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mainBox">
+        <div class="name">
+            昵称：<input type="text" class="nameinput" placeholder="请输入昵称">
+            <button class="btn">确认</button>
+        </div>
+        <div class="messageBox">
+            <ul id='message'></ul>
+            <div class="wrap">
+                <input type="text" class="input">
+                <button class="btn-send">发送</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            let input = document.getElementsByClassName('input')[0];
+            let nameinput = document.getElementsByClassName('nameinput')[0];
+            let btn = document.getElementsByClassName('btn-send')[0];
+            let messageUl = document.getElementById('message')
+            let ws = null;
+            let msgData = {
+                name: '',
+                content: '',
+            }
+            document.getElementsByClassName('btn')[0].addEventListener('click', () => {
+                msgData.name = nameinput.value;
+                document.getElementsByClassName('messageBox')[0].style.display = 'block';
+                document.getElementsByClassName('name')[0].style.display = 'none'
+            })
+
+            function connnet() {
+                ws = new WebSocket('ws://101.132.180.67:3012');
+                //开始链接
+                ws.onopen = () => {
+                    console.log('连接服务端WebSocket成功');
+                    ws.send(JSON.stringify(msgData));
+                }
+
+                ws.onmessage = (msg) => {
+                    let message = JSON.parse(msg.data);
+                    console.log('收到的消息：', message)
+                    if (message.content) {
+                        messageUl.innerHTML += `<li class="b">
+                            <span class='username'>${message.name}</span>
+                                <span class='msContent'>${message.content}</span>
+                                </li>`;
+                    }
+
+                };
+
+                // 连接失败
+                ws.onerror = () => {
+                    console.log('连接失败，正在重连...');
+                    connnet();
+                };
+
+                // 连接关闭
+                ws.onclose = () => {
+                    console.log('连接关闭');
+                };
+            }
+            connnet()
+            btn.addEventListener('click', () => {
+                let msg = {...msgData,
+                    content: input.value,
+                };
+                // 发送消息
+                ws.send(JSON.stringify(msg));
+                // messageUl.innerHTML += `<li class="a">${input.value}</li>`;
+                input.value = '';
+            })
+        }
+    </script>
+</body>
+
+</html>

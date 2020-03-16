@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let indexTableData =   [        {
+            keyword:   "全部1",
+            resultDateField:  [  {    
+                day:   "2020/2/27",
+                    record:  111,
+                    week:   "星期1",
+                  
+            },    {    
+                day:   "2020/2/28",
+                    record:  222,
+                    week:   "星期2",
+                  
+            }, ],
+            summation:  0.0,
+                    
+        },          {
+            keyword:   "全部2",
+            resultDateField:  [  {    
+                day:   "2020/2/27",
+                    record:  333,
+                    week:   "星期1",
+                  
+            },    {    
+                day:   "2020/2/27",
+                    record:  444,
+                    week:   "星期2",
+                  
+            }, ],
+            summation:  1.0,
+                    
+        },       ]
+        console.log(indexTableData)
+
+        function setDat() {
+            let alldata = indexTableData
+            let arr = [];
+            alldata.forEach(item => {
+
+                let obj = {}
+                obj['keyword'] = item.keyword;
+                obj['summation'] = item.summation;
+                item.resultDateField.forEach(itemdata => {
+                    for (let key in itemdata) {
+                        if (key == 'week') {
+                            let week = itemdata['week'];
+                            obj[week] = itemdata['record']
+                        }
+                    }
+                })
+
+                arr.push(obj)
+            })
+            console.log(arr)
+        }
+        setDat()
+    </script>
+</body>
+
+</html>
