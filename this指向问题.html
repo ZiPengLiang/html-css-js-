@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>普通函数和箭头函数的this指向问题</title>
+</head>
+
+<body>
+    <script>
+        function fn() {
+            console.log(this); // 1. {a: 100}
+            var arr = [1, 2, 3];
+
+            (function() {
+                console.log(this); // 2. Window
+            })();
+
+            // 普通 JS
+            arr.map(function(item) {
+                console.log(this); // 3. Window
+                return item + 1;
+            });
+            // 箭头函数
+            let brr = arr.map(item => {
+                console.log("es6", this); // 4. {a: 100}
+                return item + 1;
+            });
+        }
+        fn.call({
+            a: 100
+        });
+    </script>
+</body>
+
+</html>

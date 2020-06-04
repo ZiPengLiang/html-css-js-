@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>通过前序(后序)和中序推导二叉树</title>
+</head>
+
+<body>
+    <script>
+        function TreeNode(val) {
+            this.val = val;
+            this.left = null;
+            this.right = null;
+        }
+        /**
+         * @param {Array} peroder 前序遍历得到的数组
+         * @param {Array} inorder 中序遍历得到的数组
+         * @return {Object} node 二叉树
+         * 
+         */
+        let buildTree = function(preorder, inorder) {
+                if (!preorder.length || !inorder.length) {
+                    return null
+                }
+                //根节点 -- 前序的第一个
+                const rootVal = preorder[0]
+                    //创建一个二叉树
+                const node = new TreeNode(rootVal)
+
+                let i = 0; //i --有2个含义，一个是代表中序中的根节点的下边，还有一个是代表左子树的节点数量
+                for (; i < inorder.length; ++i) {
+                    if (inorder[i] === rootVal) {
+                        break
+                    }
+                }
+
+                node.left = buildTree(preorder.slice(1, i + 1), inorder.slice(0, i))
+                node.right = buildTree(preorder.slice(i + 1), inorder.slice(i + 1))
+                return node
+            }
+            //同理的后序遍历
+        let postBuild = function(postorder, inorder) {
+            // console.log(postorder, inorder)
+            if (!postorder.length || !inorder.length) {
+                return null
+            }
+
+
+            const rootVal = postorder[postorder.length - 1]
+                // console.log(rootVal)
+            const node = new TreeNode(rootVal)
+
+            let i = 0;
+            for (; i < inorder.length; ++i) {
+                if (inorder[i] === rootVal) {
+                    break
+                }
+            }
+            node.left = postBuild(postorder.slice(0, i), inorder.slice(0, i))
+
+            node.right = postBuild(postorder.slice(i, postorder.length - 1), inorder.slice(i + 1))
+            return node
+
+        }
+        let preorder = [1, 2, 4, 7, 3, 5, 6, 8];
+        let inorder = [4, 7, 2, 1, 5, 3, 8, 6]
+        let postorder = [7, 4, 2, 5, 8, 6, 3, 1]
+
+        let node = buildTree(preorder, inorder)
+        let postnode = postBuild(postorder, inorder)
+        console.log(node)
+        console.log(postnode)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //下面的二叉树是基于搜说二叉树进行的
+        function BinarySearchTree(keys) {
+            this.root = null
+            let Node = function(key) {
+                    this.key = key;
+                    this.left = null;
+                    this.right = null
+                }
+                // let root = null;
+
+            //插入节点
+            let insertNode = (node, newNode) => {
+                if (newNode.key < node.key) {
+                    if (node.left === null) {
+                        node.left = newNode
+                    } else {
+                        insertNode(node.left, newNode)
+                    }
+                } else {
+                    if (node.right === null) {
+                        node.right = newNode
+                    } else {
+                        insertNode(node.right, newNode)
+                    }
+                }
+            }
+
+            this.insert = (key) => {
+                let newNode = new Node(key)
+                if (this.root === null) {
+                    this.root = newNode
+                } else {
+                    insertNode(this.root, newNode)
+                }
+            }
+
+            keys.forEach(key => {
+                this.insert(key)
+            });
+
+            // return root
+        }
+        //中序函数
+        BinarySearchTree.prototype.inOrderTraverse = function(node, nodeList) {
+                if (node !== null) {
+                    this.inOrderTraverse(node.left, nodeList);
+                    nodeList.push(node.key)
+                    this.inOrderTraverse(node.right, nodeList)
+                }
+                return nodeList
+            }
+            //前序遍历
+        BinarySearchTree.prototype.preTraverse = function(node, nodeList) {
+                if (node !== null) {
+                    nodeList.push(node.key)
+                    this.preTraverse(node.left, nodeList);
+                    this.preTraverse(node.right, nodeList)
+                }
+                return nodeList
+            }
+            //后序遍历postTraverse 
+
+        BinarySearchTree.prototype.postTraverse = function(node, nodeList) {
+            if (node !== null) {
+                this.postTraverse(node.left, nodeList);
+                this.postTraverse(node.right, nodeList)
+                nodeList.push(node.key)
+            }
+            return nodeList
+        }
+
+        //最小值
+        BinarySearchTree.prototype.minNode = function(node) {
+                if (node !== null) {
+                    while (node && node.left !== null) {
+                        node = node.left
+                    }
+                    return node.key
+                }
+                return null
+            }
+            //最大值
+        BinarySearchTree.prototype.maxNode = function(node) {
+                if (node !== null) {
+                    while (node && node.right !== null) {
+                        node = node.right
+                    }
+                    return node.key
+                }
+                return null
+            }
+            //查找指定的值
+        BinarySearchTree.prototype.searchNode = function(node, key) {
+            if (node === null) {
+                return false
+            }
+            if (key < node.key) {
+                return this.searchNode(node.left, key)
+            } else if (key > node.key) {
+                return this.searchNode(node.right, key)
+            } else {
+                return true
+            }
+        }
+        const keys = [8, 3, 10, 1, 6, 14, 4, 7, 13]
+        let binary = new BinarySearchTree(keys)
+        let root = binary.root
+        let nodeListBox = binary.inOrderTraverse(root, [])
+        let preListBox = binary.preTraverse(root, [])
+        let postListBpx = binary.postTraverse(root, [])
+        console.log(nodeListBox)
+        console.log(preListBox)
+        console.log(postListBpx)
+    </script>
+</body>
+
+</html>

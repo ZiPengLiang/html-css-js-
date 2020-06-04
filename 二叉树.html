@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>二叉树</title>
+</head>
+
+<body>
+    <script>
+        let tree = {
+            value: '-',
+            left: {
+                value: '+',
+                left: {
+                    value: 'a'
+                },
+                right: {
+                    value: '*',
+                    left: {
+                        value: 'b'
+                    },
+                    right: {
+                        value: 'c'
+                    }
+                }
+            },
+            right: {
+                value: '/',
+                left: {
+                    value: 'd'
+                },
+                right: {
+                    value: 'e'
+                }
+            }
+        }
+
+        //前序遍历
+        let preListRec = []
+        let preOrderRec = function(node) {
+                if (node) {
+                    preListRec.push(node.value)
+                    preOrderRec(node.left)
+                    preOrderRec(node.right)
+                }
+            }
+            // preOrderRec(tree)
+            //前序遍历 -- 非递归
+        let preListUnRec = []
+        let preOrderUnRecursion = function(node) {
+                if (node) {
+                    let stack = [node];
+                    console.log([node])
+                    while (stack.length !== 0) {
+                        node = stack.pop()
+                            // console.log(stack)
+                        preListUnRec.push(node.value)
+                        if (node.right) stack.push(node.right)
+                        if (node.left) stack.push(node.left)
+                    }
+                }
+            }
+            // preOrderUnRecursion(tree);
+        var inListRec = []; //定义保存中序遍历结果的数组
+        //中序遍历 --递归
+        var inOrderRec = function(node) {
+                if (node) {
+                    inOrderRec(node.left)
+                    inListRec.push(node.value)
+                    inOrderRec(node.right)
+                }
+            }
+            // inOrderRec(tree)
+        var inListUnRec = []; //定义保存中序遍历结果的数组
+        //中序遍历---非递归
+        let inOrderUnRec = function(node) {
+            if (node) {
+                let stack = []
+                while (stack.length !== 0 || node) {
+                    if (node) {
+                        stack.push(node)
+                        node = node.left
+                    } else {
+                        node = stack.pop()
+                        inListUnRec.push(node.value)
+                        node = node.right
+                    }
+                }
+            }
+        }
+        inOrderUnRec(tree)
+
+        console.log(inListUnRec)
+    </script>
+</body>
+
+</html>
