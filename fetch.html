@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fetch</title>
+</head>
+
+<body>
+
+    <script>
+        fetch('http://101.132.180.67:3020/getData', {
+                pageno: 1,
+                pagesize: 12,
+                data: {},
+                library: 'blog'
+            })
+            .then(function(response) {
+                console.log(response)
+                return response.json();
+            })
+            .then(function(myJson) {
+                console.log(myJson);
+            });
+    </script>
+</body>
+
+</html>
