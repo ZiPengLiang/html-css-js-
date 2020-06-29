@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>创建对象的多种方式</title>
+</head>
+
+<body>
+    <script>
+        //工厂模式
+        function createPerson(name) {
+            var o = new Object()
+            o.name = name;
+            o.getName = function() {
+                console.log(this.name)
+            }
+            return o
+        }
+
+        let person1 = createPerson('kevin')
+
+        let person2 = createPerson('lzp')
+        console.log(person2.__proto__ == person1.__proto__)
+        person1.getName()
+        person2.getName()
+
+
+        // 构造函数模式
+        function Animal(name) {
+            this.name = name;
+            //每次new一次就创建一次getName的方法
+            this.getName = function() {
+                console.log(this.name)
+            }
+        }
+
+        let cat = new Animal('cat')
+        let dog = new Animal('dog')
+
+        cat.getName()
+        dog.getName()
+        console.log(cat.getName == dog.getName)
+
+
+        //原型模式
+        function School(name) {
+
+        }
+
+        School.prototype = {
+            constructor: School,
+            name: 'kevin',
+            getName: function() {
+                console.log(this.name);
+            }
+        };
+
+        var school = new School();
+
+
+        // 组合模式
+
+        function Home(name) {
+            this.name = name;
+        }
+
+        Home.prototype = {
+            constructor: Home,
+            getName: function() {
+                console.log(this.name);
+            }
+        };
+
+        var home = new Home();
+    </script>
+</body>
+
+</html>

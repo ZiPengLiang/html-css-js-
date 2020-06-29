@@ -70,6 +70,22 @@ Ball.prototype.collisionDetect = function() {
             var distance = Math.sqrt(dx * dx + dy * dy);
             if (distance <= this.size + balls[j].size) {
                 this.color = balls[j].color = randomColor();
+                // this.size = (this.size + balls[j].size / 2)
+                // this.velX = Math.abs(balls[j].velX - this.velX) / 2;
+                // this.velY = Math.abs(balls[j].velY - this.velY) / 2;
+                // balls.splice(j, 1)
+                // if (this.x + this.size >= width) {
+                //     this.x = width - this.size
+                // }
+                // if (this.x - this.size <= 0) {
+                //     this.x = this.size
+                // }
+                // if (this.y + this.size >= height) {
+                //     this.y = height - this.size
+                // }
+                // if (this.y - this.size <= 0) {
+                //     this.y = this.size
+                // }
                 // this.velX = -this.velX;
                 // this.velY = -this.velY;
                 // balls[j].velX = -balls[j].velX;
