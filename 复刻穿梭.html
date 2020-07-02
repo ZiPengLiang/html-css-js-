@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>复刻穿梭</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        body {
+            background: #FFF;
+            overflow: hidden;
+        }
+        
+        #content {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 200px;
+            left: 47%;
+            /* background: url(image/1.gif); */
+            /* 三D效果 */
+            transform-style: preserve-3d;
+            animation: play 3s linear infinite;
+        }
+        
+        .d {
+            width: 100px;
+            height: 100px;
+            font-size: 50px;
+            line-height: 100px;
+            text-align: center;
+            background: url(image/1.gif);
+            position: absolute;
+        }
+        
+        .d1 {
+            top: 100px;
+            animation: runA 3s linear infinite;
+        }
+        
+        .d11 {
+            animation: runA 3s 1s linear infinite;
+            opacity: 0;
+        }
+        
+        .d111 {
+            animation: runA 3s 2s linear infinite;
+            opacity: 0;
+        }
+        /* perspective -- 设置时间 */
+        
+        @keyframes runA {
+            from {
+                transform: perspective(10px)rotateX(12.5deg)rotateZ(180deg)translateY(200px);
+                opacity: 1;
+            }
+            to {
+                transform: perspective(10px)rotateX(12.5deg)rotateZ(180deg)translateY(-100px);
+                opacity: 1;
+            }
+        }
+        
+        .d2 {
+            top: 0;
+            animation: runB 3s linear infinite;
+        }
+        
+        .d22 {
+            animation: runB 3s 1s linear infinite;
+            opacity: 0;
+        }
+        
+        .d222 {
+            animation: runB 3s 2s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes runB {
+            from {
+                transform: perspective(10px)rotateX(-12.5deg)translateY(200px);
+                opacity: 1;
+            }
+            to {
+                transform: perspective(10px)rotateX(-12.5deg)translateY(-100px);
+                opacity: 1;
+            }
+        }
+        
+        .d3 {
+            top: 50px;
+            left: -50px;
+            animation: runC 3s linear infinite;
+        }
+        
+        .d33 {
+            opacity: 0;
+            animation: runC 3s 1s linear infinite;
+        }
+        
+        .d333 {
+            opacity: 0;
+            animation: runC 3s 2s linear infinite;
+        }
+        
+        @keyframes runC {
+            from {
+                transform: perspective(10px)rotateX(0deg)rotateY(12.5deg)rotateZ(-90deg)translateY(200px);
+                opacity: 1;
+            }
+            to {
+                transform: perspective(10px)rotateX(0deg)rotateY(12.5deg)rotateZ(-90deg)translateY(-100px);
+                opacity: 1;
+            }
+        }
+        
+        .d4 {
+            top: 50px;
+            left: 50px;
+            animation: runD 3s linear infinite;
+        }
+        
+        .d44 {
+            opacity: 0;
+            animation: runD 3s 1s linear infinite;
+        }
+        
+        .d444 {
+            opacity: 0;
+            animation: runD 3s 2s linear infinite;
+        }
+        
+        @keyframes runD {
+            from {
+                transform: perspective(10px)rotateX(0deg)rotateY(-12.5deg)rotateZ(90deg)translateY(200px);
+                opacity: 1;
+            }
+            to {
+                transform: perspective(10px)rotateX(0deg)rotateY(-12.5deg)rotateZ(90deg)translateY(-100px);
+                opacity: 1;
+            }
+        }
+        /* 旋转和放大 */
+        
+        @keyframes play {
+            from {
+                transform: rotate(0deg)scale(1);
+            }
+            50% {
+                transform: rotate(180deg)scale(3);
+            }
+            to {
+                transform: rotate(360deg)scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <div class="d d1">亲</div>
+        <div class="d d1 d11">亲</div>
+        <div class="d d1 d111">亲</div>
+        <div class="d d2">爱</div>
+        <div class="d d2 d22">爱</div>
+        <div class="d d2 d222">爱</div>
+        <div class="d d3">的</div>
+        <div class="d d3 d33">的</div>
+        <div class="d d3 d333">的</div>
+        <div class="d d4">你</div>
+        <div class="d d4 d44">你</div>
+        <div class="d d4 d444">你</div>
+    </div>
+</body>
+
+</html>

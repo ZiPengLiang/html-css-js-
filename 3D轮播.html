@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        /*表单*/
+        
+        .txt {
+            margin: 50px 0 0 30px;
+            width: 200px;
+            height: 30px;
+            font-size: 14px;
+            font-family: "微软雅黑";
+            outline: none;
+            border: 1px solid #f60;
+            text-indent: 1em;
+        }
+        
+        .sub {
+            width: 50px;
+            height: 32px;
+            font-size: 14px;
+            font-family: "微软雅黑";
+            outline: none;
+            border: 0;
+            cursor: pointer;
+            background: #f60;
+            color: #fff;
+            margin-left: -8px;
+        }
+        /*Banner start*/
+        
+        .Banner {
+            width: 800px;
+            height: 360px;
+            margin: 50px auto;
+            font-family: "微软雅黑";
+            position: relative;
+            perspective: 800px;
+        }
+        
+        .Banner .ul {
+            width: 200px;
+            height: 360px;
+            transform-style: preserve-3d;
+            transform: translateZ(-180px) rotateX(0);
+            transition: 1.2s ease;
+            float: left;
+            position: relative;
+        }
+        
+        .Banner ul li {
+            width: 200px;
+            height: 360px;
+            position: absolute;
+        }
+        /*前边*/
+        
+        .Banner ul li:nth-child(1) {
+            transform: translateZ(180px);
+            background: url("images/1.png");
+        }
+        /*后边*/
+        
+        .Banner ul li:nth-child(2) {
+            transform: translateZ(-180px) rotateX(180deg);
+            background: url("images/2.png");
+        }
+        /*上边*/
+        
+        .Banner ul li:nth-child(3) {
+            transform-origin: top;
+            /*旋转轴*/
+            transform: translateZ(-180px) rotateX(90deg);
+            background: url("images/3.png");
+        }
+        /*下边*/
+        
+        .Banner ul li:nth-child(4) {
+            transform-origin: bottom;
+            /*旋转轴*/
+            transform: translateZ(-180px) rotateX(270deg);
+            background: url("images/4.png");
+        }
+        /*
+        .Banner .ul:nth-child(2) li{background-position:-200px 0;}
+        .Banner .ul:nth-child(3) li{background-position:-400px 0;}
+        .Banner .ul:nth-child(4) li{background-position:-600px 0;}
+    
+        /*动画执行  第一个参数：动画执行时间，第二个：触发动画延迟时间
+        .Banner .ul:nth-child(2){transition:1s 0s;}
+        .Banner .ul:nth-child(2){transition:1s 0.2s;}
+        .Banner .ul:nth-child(3){transition:1s 0.4s;}
+        .Banner .ul:nth-child(4){transition:1s 0.6s;}*/
+        /*左右按钮*/
+        
+        .Banner .ear a {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: 50%;
+            margin-top: -35px;
+            background: url("images/arrow.png");
+        }
+        
+        .Banner .ear .left {
+            background-position: 0 0;
+            left: 0
+        }
+        
+        .Banner .ear .right {
+            background-position: 0 70px;
+            right: 0;
+        }
+        
+        .Banner .ear .left:hover {
+            background-position: -70px 0;
+        }
+        
+        .Banner .ear .right:hover {
+            background-position: -70px -70px;
+        }
+        /*数字按钮*/
+        
+        .Banner .btn {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+        }
+        
+        .Banner .btn a {
+            float: left;
+            border-radius: 50%;
+            background: #7d7d7d;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            font-size: 12px;
+            color: #fff;
+            text-decoration: none;
+            line-height: 20px;
+            text-align: center;
+        }
+        
+        .Banner .btn a.sel {
+            background: red;
+        }
+        /*end Banner*/
+    </style>
+</head>
+
+<body>
+
+    <body>
+        <!--表单-->
+        <input type="text" class="txt" placeholder="请输入要截取的方块数">
+        <input type="button" class="sub" value="截取">
+
+        <!--Banner start-->
+        <div class="Banner">
+            <ul>
+                <div class="ul" style="transition: all 0.8s ease 0s; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: 0px 0px; width: 80px;"></li>
+                    <li style="background-position: 0px 0px; width: 80px;"></li>
+                    <li style="background-position: 0px 0px; width: 80px;"></li>
+                    <li style="background-position: 0px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.05s; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -80px 0px; width: 80px;"></li>
+                    <li style="background-position: -80px 0px; width: 80px;"></li>
+                    <li style="background-position: -80px 0px; width: 80px;"></li>
+                    <li style="background-position: -80px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.1s; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -160px 0px; width: 80px;"></li>
+                    <li style="background-position: -160px 0px; width: 80px;"></li>
+                    <li style="background-position: -160px 0px; width: 80px;"></li>
+                    <li style="background-position: -160px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.15s; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -240px 0px; width: 80px;"></li>
+                    <li style="background-position: -240px 0px; width: 80px;"></li>
+                    <li style="background-position: -240px 0px; width: 80px;"></li>
+                    <li style="background-position: -240px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.2s; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -320px 0px; width: 80px;"></li>
+                    <li style="background-position: -320px 0px; width: 80px;"></li>
+                    <li style="background-position: -320px 0px; width: 80px;"></li>
+                    <li style="background-position: -320px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.25s; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -400px 0px; width: 80px;"></li>
+                    <li style="background-position: -400px 0px; width: 80px;"></li>
+                    <li style="background-position: -400px 0px; width: 80px;"></li>
+                    <li style="background-position: -400px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.3s; z-index: -2; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -480px 0px; width: 80px;"></li>
+                    <li style="background-position: -480px 0px; width: 80px;"></li>
+                    <li style="background-position: -480px 0px; width: 80px;"></li>
+                    <li style="background-position: -480px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.35s; z-index: -3; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -560px 0px; width: 80px;"></li>
+                    <li style="background-position: -560px 0px; width: 80px;"></li>
+                    <li style="background-position: -560px 0px; width: 80px;"></li>
+                    <li style="background-position: -560px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.4s; z-index: -4; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -640px 0px; width: 80px;"></li>
+                    <li style="background-position: -640px 0px; width: 80px;"></li>
+                    <li style="background-position: -640px 0px; width: 80px;"></li>
+                    <li style="background-position: -640px 0px; width: 80px;"></li>
+                </div>
+                <div class="ul" style="transition: all 0.8s ease 0.45s; z-index: -5; transform: translateZ(-180px) rotateX(-270deg); width: 80px;">
+                    <li style="background-position: -720px 0px; width: 80px;"></li>
+                    <li style="background-position: -720px 0px; width: 80px;"></li>
+                    <li style="background-position: -720px 0px; width: 80px;"></li>
+                    <li style="background-position: -720px 0px; width: 80px;"></li>
+                </div>
+            </ul>
+
+            <div class="ear">
+                <a href="#" class="left"></a>
+                <a href="#" class="right"></a>
+            </div>
+
+            <div class="btn">
+                <a href="#" class="">1</a>
+                <a href="#" class="">2</a>
+                <a href="#" class="">3</a>
+                <a href="#" class="sel">4</a>
+            </div>
+        </div>
+        <!--end Banner-->
+        <script src="./js/jquery-3.4.1.min.js"></script>
+        <script>
+            $(function() {
+                var num = 4; //默认为4个方块
+                var z = 0; //设定每个方块的层级
+                var index = 0;
+                var len = $(".btn a").length; //共四个按钮
+                $(".sub").click(function() {
+                    var num = $(".txt").val();
+                    $(".txt").val("");
+                    number(num); //调用改变方块的数目
+                });
+
+                $(".btn a").click(function() {
+                    index = $(this).index();
+                    $(this).addClass("sel").siblings().removeClass("sel");
+                    $(".Banner .ul").css({
+                        transform: "translateZ(-180px) rotateX(" + index * -90 + "deg)",
+                    });
+                });
+
+                function change(flag) {
+                    if (flag) { //true代表点击了右按钮
+                        index = (index < len - 1) ? ++index : 0;
+                    } else {
+                        index = (index == 0) ? (len - 1) : --index;
+                    }
+                    $(".Banner .ul").css({
+                        transform: "translateZ(-180px) rotateX(" + index * -90 + "deg)",
+                    });
+                    $(".btn a").eq(index).addClass("sel").siblings().removeClass("sel");
+                }
+
+                var nowTime = 0;
+                $(".Banner .ear .right").click(function() {
+                    if (new Date() - nowTime > 800) {
+                        change(true);
+                        nowTime = new Date();
+                    }
+                });
+
+                $(".Banner .ear .left").click(function() {
+                    if (new Date() - nowTime > 800) {
+                        change(false);
+                        nowTime = new Date();
+                    }
+                });
+
+                number(num);
+                //动态生成方块数
+                function number(num) {
+                    var BanWidth = $(".Banner").width() / num; //获取每个方块的宽度
+                    for (var i = 0; i < num; i++) {
+                        if (i == 0) $(".Banner ul").html(""); //每次调用的时候，先清空
+                        $(".Banner ul").append(
+                            "<div class='ul'><li></li><li></li><li></li><li></li></div>");
+                        //设置每个方块动画执行的时间，动画延迟执行时间为 0.5*i/num s
+                        $(".Banner .ul").eq(i).css({
+                            transition: "0.8s " + 0.5 * i / num + "s"
+                        });
+                        //设置每个方块的图片的位置
+                        $(".Banner .ul").eq(i).find("li").css({
+                            backgroundPosition: -(i) * BanWidth + "px 0",
+                        });
+                        //设置一半方块后的层级
+                        if (i > num / 2) {
+                            z--;
+                            $(".Banner .ul").eq(i).css({
+                                zIndex: z
+                            });
+                        }
+                    }
+
+                    $(".Banner .ul").css({
+                        transform: "translateZ(-180px) rotateX(" + index * -90 + "deg)",
+                    });
+
+                    //设置方块和每个面的宽度
+                    $(".Banner .ul").css({
+                        width: BanWidth
+                    });
+                    $(".Banner ul li").css({
+                        width: BanWidth
+                    });
+                }
+                var timer = null;
+                timerer();
+
+                function timerer() {
+                    timer = setInterval(function() {
+                        $(".Banner .ear .right").trigger("click");
+                    }, 3000);
+                }
+
+                $(".Banner").mouseover(function() {
+                    clearInterval(timer);
+                }).mouseout(function() {
+                    timerer();
+                });
+            });
+        </script>
+
+
+    </body>
+</body>
+
+</html>
