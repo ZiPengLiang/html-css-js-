@@ -2,7 +2,7 @@
     "devDependencies": {
         "css-loader": "^3.5.3",
         "ts-loader": "^7.0.3",
-        "webpack-cli": "^3.3.11"
+        "webpack-cli": "^3.3.12"
     },
     "scripts": {
         "build": "webpack"
@@ -10,7 +10,7 @@
     "dependencies": {
         "express": "^4.17.1",
         "webpack": "^4.43.0",
-        "webpack-cli": "^3.3.11",
+        "webpack-cli": "^3.3.12",
         "ws": "^7.3.0"
     }
 }
